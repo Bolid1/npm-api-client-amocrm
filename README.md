@@ -25,15 +25,17 @@ Also available method auth to auth in account and method current to get info abo
 Quick start
 ----------------------
 ```javascript
-const getApiV3Client = require('npm-api-client-amocrm');
-const amoClient = getApiV3Client();
+const amoClients = require('npm-api-client-amocrm');
+const amoClient = amoClients.default();
 const subdomain = 'test';
 const login = 'test@test.test';
 const key = 'test';
 
 amoClient.auth(subdomain, login, key).then(function (res) {
+  console.log('auth res: ', res);
   if (res.auth === true) {
     amoClient.addLeads([{name: 'Test'}]).then(function (leadsIds) {
+      console.log('leadsIds: ', leadsIds);
       if (leadsIds[0] && leadsIds[0].id) {
         amoClient.listLeads({id: id}).then(function (leads) {
           console.log('lead: ', leads[0]);
