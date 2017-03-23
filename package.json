@@ -1,6 +1,6 @@
 {
   "name": "npm-api-client-amocrm",
-  "version": "0.0.1",
+  "version": "0.3.0",
   "description": "API Client for amoCRM",
   "main": "dist/amocrm-api.js",
   "repository": "https://github.com/Bolid1/npm-api-client-amocrm.git",
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "babel src -d dist --ignore \"*.test.js\"",
     "build-doc": "jsdoc --pedantic -c config/jsdoc.json",
-    "test": "jest api-v2.test.js --env=node --no-cache"
+    "test": "jest --env=node --no-cache"
   },
   "dependencies": {
     "request": "^2.81.0",
