@@ -1,0 +1,62 @@
+{
+  "name": "npm-api-client-amocrm",
+  "version": "0.0.1",
+  "description": "API Client for amoCRM",
+  "main": "dist/amocrm-api.js",
+  "repository": "https://github.com/Bolid1/npm-api-client-amocrm.git",
+  "author": "Bolid1 <VDVUGaD@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel src -d dist --ignore \"*.test.js\"",
+    "build-doc": "jsdoc --pedantic -c config/jsdoc.json",
+    "test": "jest --env=node --no-cache"
+  },
+  "dependencies": {
+    "request": "^2.81.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-jest": "^19.0.0",
+    "babel-preset-es2015": "^6.24.0",
+    "eslint": "^3.18.0",
+    "eslint-config-google": "^0.7.1",
+    "jest": "^19.0.2",
+    "jsdoc": "^3.4.3",
+    "regenerator-runtime": "^0.10.3"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "google",
+    "env": {
+      "es6": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    }
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>[/\\\\](build|docs|node_modules|scripts|config)[/\\\\]"
+    ],
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
+    ]
+  }
+}
