@@ -2,6 +2,7 @@ import _ from 'underscore';
 
 /**
  * @classdesc Base client for amoCRM accounts
+ * @class AmoApiClient
  * @abstract
  */
 export default class AmoApiClient {
@@ -24,7 +25,7 @@ export default class AmoApiClient {
 
     /**
      * @type {Object}
-     * @private
+     * @protected
      */
     this._pathMatch = {
       'auth': 'private/api/auth.php',
@@ -36,6 +37,12 @@ export default class AmoApiClient {
      * @private
      */
     this._url = null;
+
+    /**
+     * @type {Object}
+     * @private
+     */
+    this._lastAuthInfo = {};
   }
 
   /**
@@ -61,6 +68,12 @@ export default class AmoApiClient {
    */
   auth(subdomain, login, key) {
     return new Promise((resolve, reject) => {
+      const authData = `${subdomain}_${login}_${key}`;
+
+      if (this._lastAuthInfo.authData === authData) {
+        return resolve(this._lastAuthInfo.auth);
+      }
+
       this._resolveAccountAddress(subdomain).then((address) => {
         this._setBaseUrl(address);
         let form = {
@@ -69,7 +82,12 @@ export default class AmoApiClient {
         };
 
         this._initCookie();
-        this._post('auth', form, {type: 'json'}).then(resolve, reject);
+        this._post('auth', form, {type: 'json'}).then((auth) => {
+            this._lastAuthInfo = {auth, authData};
+            resolve(auth);
+          },
+          reject
+        );
       }, reject);
     });
   }
@@ -150,7 +168,7 @@ export default class AmoApiClient {
    * @param {string} path
    * @param {Object} [qs]
    * @return {Promise}
-   * @private
+   * @protected
    * @memberOf AmoApiClient
    */
   _get(path, qs) {
@@ -168,7 +186,7 @@ export default class AmoApiClient {
    * @param {Object} form - Post data
    * @param {Object} [qs]
    * @return {Promise}
-   * @private
+   * @protected
    * @memberOf AmoApiClient
    */
   _post(path, form, qs) {

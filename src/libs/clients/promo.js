@@ -42,6 +42,7 @@ const infoStatusIsValid = (status) => {
 
 /**
  * @classdesc Client for promo site
+ * @class PromoClientClass
  */
 export default class PromoClientClass {
   /**

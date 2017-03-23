@@ -9,7 +9,7 @@
   "scripts": {
     "build": "babel src -d dist --ignore \"*.test.js\"",
     "build-doc": "jsdoc --pedantic -c config/jsdoc.json",
-    "test": "jest --env=node --no-cache"
+    "test": "jest api-v2.test.js --env=node --no-cache"
   },
   "dependencies": {
     "request": "^2.81.0",

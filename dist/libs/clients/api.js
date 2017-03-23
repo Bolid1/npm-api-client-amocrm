@@ -40,7 +40,7 @@ var AmoApiClient = function () {
 
     /**
      * @type {Object}
-     * @private
+     * @protected
      */
     this._pathMatch = {
       'auth': 'private/api/auth.php',
@@ -52,6 +52,12 @@ var AmoApiClient = function () {
      * @private
      */
     this._url = null;
+
+    /**
+     * @type {Object}
+     * @private
+     */
+    this._lastAuthInfo = {};
   }
 
   /**
@@ -86,6 +92,12 @@ var AmoApiClient = function () {
       var _this = this;
 
       return new Promise(function (resolve, reject) {
+        var authData = subdomain + '_' + login + '_' + key;
+
+        if (_this._lastAuthInfo.authData === authData) {
+          return resolve(_this._lastAuthInfo.auth);
+        }
+
         _this._resolveAccountAddress(subdomain).then(function (address) {
           _this._setBaseUrl(address);
           var form = {
@@ -94,7 +106,10 @@ var AmoApiClient = function () {
           };
 
           _this._initCookie();
-          _this._post('auth', form, { type: 'json' }).then(resolve, reject);
+          _this._post('auth', form, { type: 'json' }).then(function (auth) {
+            _this._lastAuthInfo = { auth: auth, authData: authData };
+            resolve(auth);
+          }, reject);
         }, reject);
       });
     }
@@ -188,7 +203,7 @@ var AmoApiClient = function () {
      * @param {string} path
      * @param {Object} [qs]
      * @return {Promise}
-     * @private
+     * @protected
      * @memberOf AmoApiClient
      */
 
@@ -211,7 +226,7 @@ var AmoApiClient = function () {
      * @param {Object} form - Post data
      * @param {Object} [qs]
      * @return {Promise}
-     * @private
+     * @protected
      * @memberOf AmoApiClient
      */
 
