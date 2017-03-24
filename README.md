@@ -1,6 +1,8 @@
 amoCRM API Client
 =======
 
+[![NPM](https://nodei.co/npm/npm-api-client-amocrm.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/npm-api-client-amocrm/)
+
 An API client for amoCRM
 
 Installation
@@ -37,7 +39,7 @@ amoClient.auth(subdomain, login, key).then(function (res) {
     amoClient.addLeads([{name: 'Test'}]).then(function (leadsIds) {
       console.log('leadsIds: ', leadsIds);
       if (leadsIds[0] && leadsIds[0].id) {
-        amoClient.listLeads({id: id}).then(function (leads) {
+        amoClient.listLeads({id: leadsIds[0].id}).then(function (leads) {
           console.log('lead: ', leads[0]);
         });
       }
