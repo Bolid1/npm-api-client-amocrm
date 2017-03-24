@@ -50,7 +50,9 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Get list of companies
    * @method listCompanies
    * @memberOf AmoV2ApiClient
-   * @param {Object} qs
+   * @instance
+   * @public
+   * @param {Object} [qs]
    * @return {Promise}
    */
 
@@ -58,6 +60,8 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Add companies
    * @method addCompanies
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Array} companies
    * @return {Promise}
    */
@@ -66,6 +70,8 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Update companies
    * @method updateCompanies
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Array} companies
    * @return {Promise}
    */
@@ -74,10 +80,12 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Execute set method of companies
    * @method setCompanies
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Object} data
    * @param {Array} [data.add]
    * @param {Array} [data.update]
-   * @param {Object} qs
+   * @param {Object} [qs]
    * @return {Promise}
    */
 
@@ -85,7 +93,9 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Get list of contacts
    * @method listContacts
    * @memberOf AmoV2ApiClient
-   * @param {Object} qs
+   * @instance
+   * @public
+   * @param {Object} [qs]
    * @return {Promise}
    */
 
@@ -93,6 +103,8 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Add contacts
    * @method addContacts
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Array} contacts
    * @return {Promise}
    */
@@ -101,6 +113,8 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Update contacts
    * @method updateContacts
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Array} contacts
    * @return {Promise}
    */
@@ -109,10 +123,12 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Execute set method of contacts
    * @method setContacts
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Object} data
    * @param {Array} [data.add]
    * @param {Array} [data.update]
-   * @param {Object} qs
+   * @param {Object} [qs]
    * @return {Promise}
    */
 
@@ -120,7 +136,9 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Get list of leads
    * @method listLeads
    * @memberOf AmoV2ApiClient
-   * @param {Object} qs
+   * @instance
+   * @public
+   * @param {Object} [qs]
    * @return {Promise}
    */
 
@@ -128,6 +146,8 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Add leads
    * @method addLeads
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Array} leads
    * @return {Promise}
    */
@@ -136,6 +156,8 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Update leads
    * @method updateLeads
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Array} leads
    * @return {Promise}
    */
@@ -144,10 +166,12 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Execute set method of leads
    * @method setLeads
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Object} data
    * @param {Array} [data.add]
    * @param {Array} [data.update]
-   * @param {Object} qs
+   * @param {Object} [qs]
    * @return {Promise}
    */
 
@@ -155,7 +179,9 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Get list of tasks
    * @method listTasks
    * @memberOf AmoV2ApiClient
-   * @param {Object} qs
+   * @instance
+   * @public
+   * @param {Object} [qs]
    * @return {Promise}
    */
 
@@ -163,6 +189,8 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Add tasks
    * @method addTasks
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Array} tasks
    * @return {Promise}
    */
@@ -171,6 +199,8 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Update tasks
    * @method updateTasks
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Array} tasks
    * @return {Promise}
    */
@@ -179,10 +209,12 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Execute set method of tasks
    * @method setTasks
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Object} data
    * @param {Array} [data.add]
    * @param {Array} [data.update]
-   * @param {Object} qs
+   * @param {Object} [qs]
    * @return {Promise}
    */
 
@@ -190,7 +222,9 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Get list of notes
    * @method listNotes
    * @memberOf AmoV2ApiClient
-   * @param {Object} qs
+   * @instance
+   * @public
+   * @param {Object} [qs]
    * @return {Promise}
    */
 
@@ -198,6 +232,8 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Add notes
    * @method addNotes
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Array} notes
    * @return {Promise}
    */
@@ -206,6 +242,8 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Update notes
    * @method updateNotes
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Array} notes
    * @return {Promise}
    */
@@ -214,28 +252,37 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @description Execute set method of notes
    * @method setNotes
    * @memberOf AmoV2ApiClient
+   * @instance
+   * @public
    * @param {Object} data
    * @param {Array} [data.add]
    * @param {Array} [data.update]
-   * @param {Object} qs
+   * @param {Object} [qs]
    * @return {Promise}
    */
 
   /**
    * @param {string} entity
+   * @param {boolean} [checkPagination]
    * @return {function(*)}
    * @protected
+   * @override
    * @memberOf AmoV2ApiClient
+   * @instance
    */
-  _buildListMethod(entity) {
-    return (qs) => {
+  _buildListMethod(entity, checkPagination) {
+    return (qs, withPagination) => {
       return new Promise((resolve, reject) => {
         this._get(`${entity}/list`, qs).then((res) => {
-            if (res[entity]) {
-              resolve(res[entity]);
-            } else {
-              reject(res);
+            if (!res[entity]) {
+              return reject(res);
             }
+
+            if (checkPagination === true && withPagination === true) {
+              return resolve(res);
+            }
+
+            return resolve(res[entity]);
           },
           reject
         );
@@ -248,6 +295,7 @@ export default class AmoV2ApiClient extends AmoApiClient {
    * @return {function(*)}
    * @protected
    * @memberOf AmoV2ApiClient
+   * @instance
    */
   _buildSetMethod(entity) {
     return (data, qs) => {
@@ -255,13 +303,8 @@ export default class AmoV2ApiClient extends AmoApiClient {
         let form = {request: {}};
         form.request[entity] = data;
 
-        this._post(`${entity}/set`, form, qs).then((res) => {
-            if (res[entity]) {
-              resolve(res[entity]);
-            } else {
-              reject(res);
-            }
-          },
+        this._post(`${entity}/set`, form, qs).then(
+          (resp) => this._resolveAction(null, entity, resp, resolve, reject),
           reject
         );
       });
@@ -269,49 +312,90 @@ export default class AmoV2ApiClient extends AmoApiClient {
   }
 
   /**
-   * @param {string} entity
-   * @return {function(*)}
+   * @param {string|null} action
+   * @param {string|null} entity
+   * @param {Object} resp
+   * @param {function} resolve
+   * @param {function} reject
+   * @param {boolean} [keepErrors]
+   * @return {*}
    * @protected
    * @memberOf AmoV2ApiClient
+   * @instance
    */
-  _buildAddMethod(entity) {
-    return (elements) => {
-      let entityCamel = entity.substr(0, 1).toUpperCase() + entity.substr(1);
-      let form = {};
-      form['add'] = elements;
+  _resolveAction(action, entity, resp, resolve, reject, keepErrors) {
+    if (action === null && entity !== null) {
+      action = entity;
+      entity = null;
+    }
 
-      return new Promise((resolve, reject) => {
-        this[`set${entityCamel}`](form).then((resp) => {
-          if (resp.add) {
-            resolve(resp.add);
-          } else {
-            reject(resp);
-          }
-        }, reject);
-      });
-    };
+    if (!resp[action]) {
+      return reject(resp);
+    }
+
+    if (entity !== null) {
+      if (_.has(resp[action], entity) && _.has(resp[action], 'errors')) {
+        if (keepErrors !== true) {
+          return resolve(resp[action][entity]);
+        }
+      }
+    }
+
+
+    return resolve(resp[action]);
   }
 
   /**
    * @param {string} entity
+   * @param {boolean} [checkErrors]
    * @return {function(*)}
    * @protected
    * @memberOf AmoV2ApiClient
+   * @instance
    */
-  _buildUpdateMethod(entity) {
-    return (elements) => {
+  _buildAddMethod(entity, checkErrors) {
+    return this._buildActionMethod('add', entity, checkErrors);
+  }
+
+  /**
+   * @param {string} entity
+   * @param {boolean} [checkErrors]
+   * @return {function(*)}
+   * @protected
+   * @memberOf AmoV2ApiClient
+   * @instance
+   */
+  _buildUpdateMethod(entity, checkErrors) {
+    return this._buildActionMethod('update', entity, checkErrors);
+  }
+
+  /**
+   * @param {string} action
+   * @param {string} entity
+   * @param {boolean} [checkErrors]
+   * @return {function(*)}
+   * @protected
+   * @memberOf AmoV2ApiClient
+   * @instance
+   */
+  _buildActionMethod(action, entity, checkErrors) {
+    return (elements, saveErrorsInResponse) => {
       let entityCamel = entity.substr(0, 1).toUpperCase() + entity.substr(1);
       let form = {};
-      form['update'] = elements;
+      form[action] = elements;
 
       return new Promise((resolve, reject) => {
-        this[`set${entityCamel}`](form).then((resp) => {
-          if (resp.update) {
-            resolve(resp.update);
-          } else {
-            reject(resp);
-          }
-        }, reject);
+        this[`set${entityCamel}`](form).then(
+          (resp) => this._resolveAction(
+            action,
+            entity,
+            resp,
+            resolve,
+            reject,
+            checkErrors === true && saveErrorsInResponse === true
+          ),
+          reject
+        );
       });
     };
   }

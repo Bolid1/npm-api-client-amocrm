@@ -16,6 +16,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /**
  * @classdesc Base client for amoCRM accounts
+ * @class AmoApiClient
  * @abstract
  */
 var AmoApiClient = function () {
@@ -64,6 +65,7 @@ var AmoApiClient = function () {
    * @description Init new cookies for requests
    * @private
    * @memberOf AmoApiClient
+   * @instance
    */
 
 
@@ -84,6 +86,8 @@ var AmoApiClient = function () {
      * @param {string} key
      * @return {Promise}
      * @memberOf AmoApiClient
+     * @instance
+     * @public
      */
 
   }, {
@@ -117,6 +121,8 @@ var AmoApiClient = function () {
     /**
      * @return {Promise}
      * @memberOf AmoApiClient
+     * @instance
+     * @public
      */
 
   }, {
@@ -140,6 +146,7 @@ var AmoApiClient = function () {
      * @return {Promise}
      * @private
      * @memberOf AmoApiClient
+     * @instance
      */
 
   }, {
@@ -158,6 +165,7 @@ var AmoApiClient = function () {
      * @param {string} address
      * @private
      * @memberOf AmoApiClient
+     * @instance
      */
 
   }, {
@@ -172,6 +180,7 @@ var AmoApiClient = function () {
      * @return {string|null}
      * @private
      * @memberOf AmoApiClient
+     * @instance
      */
 
   }, {
@@ -205,6 +214,7 @@ var AmoApiClient = function () {
      * @return {Promise}
      * @protected
      * @memberOf AmoApiClient
+     * @instance
      */
 
   }, {
@@ -228,6 +238,7 @@ var AmoApiClient = function () {
      * @return {Promise}
      * @protected
      * @memberOf AmoApiClient
+     * @instance
      */
 
   }, {
@@ -259,6 +270,7 @@ var AmoApiClient = function () {
      * @param {function} reject
      * @private
      * @memberOf AmoApiClient
+     * @instance
      */
 
   }, {

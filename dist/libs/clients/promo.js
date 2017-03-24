@@ -56,6 +56,7 @@ var infoStatusIsValid = function infoStatusIsValid(status) {
 
 /**
  * @classdesc Client for promo site
+ * @class PromoClientClass
  */
 
 var PromoClientClass = function () {
@@ -77,6 +78,8 @@ var PromoClientClass = function () {
    * @param {string} subdomain
    * @return {Promise}
    * @memberOf PromoClientClass
+   * @instance
+   * @public
    */
 
 

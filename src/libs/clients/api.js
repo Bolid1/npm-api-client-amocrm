@@ -49,6 +49,7 @@ export default class AmoApiClient {
    * @description Init new cookies for requests
    * @private
    * @memberOf AmoApiClient
+   * @instance
    */
   _initCookie() {
     /**
@@ -65,6 +66,8 @@ export default class AmoApiClient {
    * @param {string} key
    * @return {Promise}
    * @memberOf AmoApiClient
+   * @instance
+   * @public
    */
   auth(subdomain, login, key) {
     return new Promise((resolve, reject) => {
@@ -95,6 +98,8 @@ export default class AmoApiClient {
   /**
    * @return {Promise}
    * @memberOf AmoApiClient
+   * @instance
+   * @public
    */
   current() {
     return new Promise((resolve, reject) => {
@@ -115,6 +120,7 @@ export default class AmoApiClient {
    * @return {Promise}
    * @private
    * @memberOf AmoApiClient
+   * @instance
    */
   _resolveAccountAddress(subdomain) {
     return new Promise((resolve, reject) => {
@@ -129,6 +135,7 @@ export default class AmoApiClient {
    * @param {string} address
    * @private
    * @memberOf AmoApiClient
+   * @instance
    */
   _setBaseUrl(address) {
     this._url = address;
@@ -140,6 +147,7 @@ export default class AmoApiClient {
    * @return {string|null}
    * @private
    * @memberOf AmoApiClient
+   * @instance
    */
   _buildUrl(path, reject) {
     if (!this._url) {
@@ -170,6 +178,7 @@ export default class AmoApiClient {
    * @return {Promise}
    * @protected
    * @memberOf AmoApiClient
+   * @instance
    */
   _get(path, qs) {
     return new Promise((resolve, reject) => {
@@ -188,6 +197,7 @@ export default class AmoApiClient {
    * @return {Promise}
    * @protected
    * @memberOf AmoApiClient
+   * @instance
    */
   _post(path, form, qs) {
     return new Promise((resolve, reject) => {
@@ -214,6 +224,7 @@ export default class AmoApiClient {
    * @param {function} reject
    * @private
    * @memberOf AmoApiClient
+   * @instance
    */
   _query(type, params, resolve, reject) {
     params.jar = this._cookie;

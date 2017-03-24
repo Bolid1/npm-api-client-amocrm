@@ -22,7 +22,11 @@ To install the latest development version:
 Available methods and entities
 ----------------------
 For contacts, leads, companies, tasks and notes available add, list, update and set methods.
+For customers, transactions, catalogs and catalog elements available add, list, update, delete and set methods.
 Also available method auth to auth in account and method current to get info about current account.
+
+_Note:_
+This client takes into account that amoCRM prohibits making requests to the API more than once per second.
 
 Quick start
 ----------------------

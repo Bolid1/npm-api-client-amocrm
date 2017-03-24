@@ -61,6 +61,8 @@ export default class PromoClientClass {
    * @param {string} subdomain
    * @return {Promise}
    * @memberOf PromoClientClass
+   * @instance
+   * @public
    */
   getAccountInfoBySubdomain(subdomain) {
     return new Promise((resolve, reject) => {
