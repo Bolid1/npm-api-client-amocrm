@@ -1,6 +1,6 @@
 {
   "name": "npm-api-client-amocrm",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "API Client for amoCRM",
   "main": "index.js",
   "repository": "https://github.com/Bolid1/npm-api-client-amocrm.git",
