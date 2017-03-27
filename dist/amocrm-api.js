@@ -3,9 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getPromoClient = getPromoClient;
-exports.getApiV2Client = getApiV2Client;
-exports.default = getApiV3Client;
+exports.getPromoClient = exports.getApiV2Client = undefined;
 
 var _request = require('request');
 
@@ -48,3 +46,7 @@ function getApiV2Client() {
 function getApiV3Client() {
   return new _apiV4.default(_request2.default, getPromoClient());
 }
+
+exports.getApiV2Client = getApiV2Client;
+exports.getPromoClient = getPromoClient;
+exports.default = getApiV3Client;

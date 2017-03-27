@@ -17,6 +17,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /**
  * Enum for account statuses.
+ * @readonly
  * @enum {string}
  */
 var ACCOUNT_INFO_STATUSES = exports.ACCOUNT_INFO_STATUSES = {
@@ -26,6 +27,7 @@ var ACCOUNT_INFO_STATUSES = exports.ACCOUNT_INFO_STATUSES = {
 
 /**
  * Enum for account statuses.
+ * @readonly
  * @enum {string}
  */
 var ACCOUNT_INFO_TOP_DOMAIN = exports.ACCOUNT_INFO_TOP_DOMAIN = {
@@ -56,7 +58,6 @@ var infoStatusIsValid = function infoStatusIsValid(status) {
 
 /**
  * @classdesc Client for promo site
- * @class PromoClientClass
  */
 
 var PromoClientClass = function () {

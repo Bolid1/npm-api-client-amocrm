@@ -24,7 +24,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /**
  * @classdesc Client for api v2 of amoCRM
- * @class AmoV3ApiClient
+ * @extends AmoV2ApiClient
  */
 var AmoV3ApiClient = function (_AmoV2ApiClient) {
   _inherits(AmoV3ApiClient, _AmoV2ApiClient);

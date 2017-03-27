@@ -2,10 +2,9 @@ import _ from 'underscore';
 
 /**
  * @classdesc Base client for amoCRM accounts
- * @class AmoApiClient
  * @abstract
  */
-export default class AmoApiClient {
+class AmoApiClient {
   /**
    * @param {RequesterClass} request
    * @param {PromoClientClass} promoClient
@@ -256,3 +255,5 @@ export default class AmoApiClient {
     });
   }
 }
+
+export default AmoApiClient;

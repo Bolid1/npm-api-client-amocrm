@@ -7,7 +7,7 @@ import AmoV3ApiClient from './libs/clients/api-v3';
  * @description Return API client for amoCRM promo site
  * @return {PromoClientClass}
  */
-export function getPromoClient() {
+function getPromoClient() {
   return new PromoClientClass(request);
 }
 
@@ -15,7 +15,7 @@ export function getPromoClient() {
  * @description Return API client for amoCRM account v2
  * @return {AmoV2ApiClient}
  */
-export function getApiV2Client() {
+function getApiV2Client() {
   return new AmoV2ApiClient(request, getPromoClient());
 }
 
@@ -23,6 +23,9 @@ export function getApiV2Client() {
  * @description Return API client for amoCRM account v3
  * @return {AmoV3ApiClient}
  */
-export default function getApiV3Client() {
+function getApiV3Client() {
   return new AmoV3ApiClient(request, getPromoClient());
 }
+
+export {getApiV2Client, getPromoClient};
+export default getApiV3Client;

@@ -2,6 +2,7 @@ import _ from 'underscore';
 
 /**
  * Enum for account statuses.
+ * @readonly
  * @enum {string}
  */
 export const ACCOUNT_INFO_STATUSES = {
@@ -11,6 +12,7 @@ export const ACCOUNT_INFO_STATUSES = {
 
 /**
  * Enum for account statuses.
+ * @readonly
  * @enum {string}
  */
 export const ACCOUNT_INFO_TOP_DOMAIN = {
@@ -42,9 +44,8 @@ const infoStatusIsValid = (status) => {
 
 /**
  * @classdesc Client for promo site
- * @class PromoClientClass
  */
-export default class PromoClientClass {
+class PromoClientClass {
   /**
    * @param {RequesterClass} request
    */
@@ -106,3 +107,5 @@ export default class PromoClientClass {
     });
   }
 }
+
+export default PromoClientClass;

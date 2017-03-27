@@ -3,9 +3,9 @@ import AmoApiClient from './api';
 
 /**
  * @classdesc Client for api v2 of amoCRM
- * @class AmoV2ApiClient
+ * @extends AmoApiClient
  */
-export default class AmoV2ApiClient extends AmoApiClient {
+class AmoV2ApiClient extends AmoApiClient {
   /**
    * @param {RequesterClass} request
    * @param {PromoClientClass} promoClient
@@ -400,3 +400,5 @@ export default class AmoV2ApiClient extends AmoApiClient {
     };
   }
 }
+
+export default AmoV2ApiClient;

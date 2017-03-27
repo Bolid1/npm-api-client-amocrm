@@ -16,7 +16,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /**
  * @classdesc Base client for amoCRM accounts
- * @class AmoApiClient
  * @abstract
  */
 var AmoApiClient = function () {
