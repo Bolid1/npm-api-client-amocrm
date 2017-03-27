@@ -2,6 +2,17 @@ import _ from 'underscore';
 import AmoV2ApiClient from './api-v2';
 
 /**
+ * @typedef {Object} Link
+ * @property {String} from
+ * @property {Number} from_id
+ * @property {String} [to]
+ * @property {Number} [to_id]
+ * @property {Number} [from_catalog_id]
+ * @property {Number} [to_catalog_id]
+ * @property {Number} [quantity]
+ */
+
+/**
  * @classdesc Client for api v3 of amoCRM
  * @extends AmoV2ApiClient
  */
@@ -32,9 +43,72 @@ class AmoV3ApiClient extends AmoV2ApiClient {
       this[`delete${entityCamel}`] = this._buildDeleteMethod(entity, true);
     }, this);
 
+    elementsPaths['links/list'] = 'private/api/v2/json/links/list/';
+    elementsPaths['links/set'] = 'private/api/v2/json/links/set/';
+    this.setLinks = this._buildSetMethod('links');
+    this.linkLinks = this._buildActionMethod('link', 'links', true);
+    this.unlinkLinks = this._buildActionMethod('unlink', 'links', true);
+
     // noinspection JSAccessibilityCheck
     _.extend(this._pathMatch, elementsPaths);
   }
+
+  /**
+   * @description Get list of links
+   * @memberOf AmoV3ApiClient
+   * @instance
+   * @public
+   * @param {Array.<Link>} links
+   * @return {Promise}
+   */
+  listLinks(links) {
+    return new Promise((resolve, reject) => {
+      this._get('links/list', {links}).then((res) => {
+          if (!res.links) {
+            return reject(res);
+          }
+
+          return resolve(res.links);
+        },
+        reject
+      );
+    });
+  }
+
+  /**
+   * @description Add|update links
+   * @method linkLinks
+   * @memberOf AmoV3ApiClient
+   * @instance
+   * @public
+   * @param {Array.<Link>} links
+   * @param {boolean} [keepErrorsInResponse]
+   * @return {Promise}
+   */
+
+  /**
+   * @description Remove links
+   * @method unlinkLinks
+   * @memberOf AmoV3ApiClient
+   * @instance
+   * @public
+   * @param {Array.<Link>} links
+   * @param {boolean} [keepErrorsInResponse]
+   * @return {Promise}
+   */
+
+  /**
+   * @description Execute set method of links
+   * @method setLinks
+   * @memberOf AmoV3ApiClient
+   * @instance
+   * @public
+   * @param {Object} data
+   * @param {Array.<Link>} [data.link]
+   * @param {Array.<Link>} [data.unlink]
+   * @param {Object} [qs]
+   * @return {Promise}
+   */
 
   /**
    * @description Get list of customers

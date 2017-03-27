@@ -250,3 +250,49 @@ it('Should work with catalog_elements list pagination', () => {
     expect(catalogElement).toHaveProperty('catalog_id');
   });
 });
+
+it('Should work with links', () => {
+  const promise = new Promise((resolve, reject) => {
+    amoApiClient.auth(subdomain, login, key).then(() => {
+      const getEntities = [
+        amoApiClient.listCustomers({limit_rows: 1}),
+        amoApiClient.listContacts({limit_rows: 1}),
+      ];
+
+      Promise.all(getEntities).then((entities) => {
+        const customer = _.first(entities[0]);
+        const contact = _.first(entities[1]);
+        let link;
+
+        expect(customer).toBeInstanceOf(Object);
+        expect(contact).toBeInstanceOf(Object);
+
+        link = {
+          from: 'customers',
+          from_id: customer.id,
+          to: 'contacts',
+          to_id: contact.id,
+        };
+
+        amoApiClient.linkLinks([link]).then((links) => {
+          const createdLink = _.first(links);
+
+          expect(createdLink).toMatchObject(link);
+
+          amoApiClient.listLinks([link]).then((links) => {
+            const linkFromGet = _.first(links);
+
+            expect(linkFromGet).toMatchObject(link);
+
+            amoApiClient.unlinkLinks([link]).then(resolve, reject);
+          }, reject);
+        }, reject);
+      }, reject);
+    }, reject);
+  });
+
+  return promise.then((res) => {
+    expect(res).toBeInstanceOf(Array);
+    expect(res[0]).toBe(true);
+  });
+}, 10000);
