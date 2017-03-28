@@ -787,10 +787,477 @@
 
             
                 
+<h4 class="name" id="Customer">Customer</h4>
+
+
+
+
+<div class="description">
+    <p>Аналогичен сущности &quot;сделка&quot;.
+Состоит из предустановленного набора полей и дополнительных,
+создаваемых администратором аккаунта.
+Каждый покупатель может быть прикреплен
+к одному и более контакту или не
+прикреплен ни к одному.
+Каждому покупателю может быть задан
+ответственный для разграничения прав
+доступа между сотрудниками аккаунта.
+Покупатель обладает периодом, который
+обозначает положение покупателя в жизненном
+цикле (бизнес-процесс).
+Список периодов может быть изменен
+в рамках аккаунта, кроме первого и
+трех конечных системных периодов.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Уникальный идентификатор элемента</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Название элемента</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>date_create</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Дата создания (timestamp)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>date_modify</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Дата изменения (timestamp)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>created_by</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>ID пользователя, создавшего покупателя</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>modified_by</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>ID пользователя, изменившего покупателя</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>main_user_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>ID пользователя,
+ответственного за покупателя</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>account_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Уникальный идентификатор аккаунта</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next_price</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Ожидаемая сумма покупки</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>periodicity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Периодичность</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next_date</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Дата след. покупки</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tags</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Массив тегов</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>main_contact_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>ID основного контакта
+или false, в случае его отсутствия</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>period_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Уникальный идентификатор периода</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>custom_fields</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Массив полей элемента,
+если они есть, иначе пустой массив</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="libs_clients_api-v3.js.html">libs/clients/api-v3.js</a>, <a href="libs_clients_api-v3.js.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
 <h4 class="name" id="Link">Link</h4>
 
 
 
+
+<div class="description">
+    <p>Описывает связь между двумя сущностями</p>
+</div>
 
 
 
@@ -858,7 +1325,8 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>Сущность у которой необходимо
+получить связи (leads, contacts, companies, customers, catalog_elements)</p></td>
         </tr>
 
     
@@ -887,7 +1355,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>ID элемента сущности</p></td>
         </tr>
 
     
@@ -909,8 +1377,6 @@
             
                 <td class="attributes">
                 
-                    &lt;optional><br>
-                
 
                 
                 </td>
@@ -918,7 +1384,8 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>Сущность, которая привязана
+(leads, contacts, companies, customers, catalog_elements)</p></td>
         </tr>
 
     
@@ -940,8 +1407,6 @@
             
                 <td class="attributes">
                 
-                    &lt;optional><br>
-                
 
                 
                 </td>
@@ -949,7 +1414,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>ID элемента сущности которая привязана</p></td>
         </tr>
 
     
@@ -980,7 +1445,8 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>ID каталога,
+связи с которым необходимо получить</p></td>
         </tr>
 
     
@@ -1011,7 +1477,8 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>ID каталога,
+элементы которого привязаны к сущности</p></td>
         </tr>
 
     
@@ -1042,7 +1509,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>Колличество привязанных элементов</p></td>
         </tr>
 
     
@@ -1098,6 +1565,339 @@
 
 
             
+                
+<h4 class="name" id="Transaction">Transaction</h4>
+
+
+
+
+<div class="description">
+    <p>Транзакция - это сущность которая описывает
+основные характеристики покупки (дата и сумма).
+Является дополнением для &quot;покупателя&quot;.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Уникальный идентификатор элемента</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>account_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Уникальный идентификатор аккаунта</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>customer_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Уникальный идентификатор покупателя</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>created_by</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>ID пользователя, создавшего покупателя</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>modified_by</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>ID пользователя, изменившего покупателя</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>date</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Дата совершенной покупки (timestamp)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>price</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Сумма покупки</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>deleted</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>свойство корзины</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>date_create</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Дата создания (timestamp)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>date_modify</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Дата изменения (timestamp)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="libs_clients_api-v3.js.html">libs/clients/api-v3.js</a>, <a href="libs_clients_api-v3.js.html#line57">line 57</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
     
 
     
@@ -1117,7 +1917,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon Mar 27 2017 12:13:52 GMT+0300 (Russia TZ 2 Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Mar 28 2017 20:10:23 GMT+0300 (Russia TZ 2 Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
