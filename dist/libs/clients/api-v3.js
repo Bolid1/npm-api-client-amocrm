@@ -24,13 +24,72 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /**
  * @typedef {Object} Link
- * @property {String} from
- * @property {Number} from_id
- * @property {String} [to]
- * @property {Number} [to_id]
- * @property {Number} [from_catalog_id]
- * @property {Number} [to_catalog_id]
- * @property {Number} [quantity]
+ * @description Описывает связь между двумя сущностями
+ * @property {String} from - Сущность у которой необходимо
+ * получить связи (leads, contacts, companies, customers, catalog_elements)
+ * @property {Number} from_id - ID элемента сущности
+ * @property {String} to - Сущность, которая привязана
+ * (leads, contacts, companies, customers, catalog_elements)
+ * @property {Number} to_id - ID элемента сущности которая привязана
+ * @property {Number} [from_catalog_id] - ID каталога,
+ * связи с которым необходимо получить
+ * @property {Number} [to_catalog_id] - ID каталога,
+ * элементы которого привязаны к сущности
+ * @property {Number} [quantity] - Колличество привязанных элементов
+ */
+
+/**
+ * @typedef {Object} Customer
+ * @description Аналогичен сущности "сделка".
+ * Состоит из предустановленного набора полей и дополнительных,
+ * создаваемых администратором аккаунта.
+ * Каждый покупатель может быть прикреплен
+ * к одному и более контакту или не
+ * прикреплен ни к одному.
+ * Каждому покупателю может быть задан
+ * ответственный для разграничения прав
+ * доступа между сотрудниками аккаунта.
+ * Покупатель обладает периодом, который
+ * обозначает положение покупателя в жизненном
+ * цикле (бизнес-процесс).
+ * Список периодов может быть изменен
+ * в рамках аккаунта, кроме первого и
+ * трех конечных системных периодов.
+ * @property {Number} id - Уникальный идентификатор элемента
+ * @property {String} name - Название элемента
+ * @property {Number} date_create - Дата создания (timestamp)
+ * @property {Number} date_modify - Дата изменения (timestamp)
+ * @property {Number} created_by - ID пользователя, создавшего покупателя
+ * @property {Number} modified_by - ID пользователя, изменившего покупателя
+ * @property {Number} main_user_id - ID пользователя,
+ * ответственного за покупателя
+ * @property {Number} account_id - Уникальный идентификатор аккаунта
+ * @property {Number} next_price - Ожидаемая сумма покупки
+ * @property {Number} periodicity - Периодичность
+ * @property {Number} next_date - Дата след. покупки
+ * @property {Array} tags - Массив тегов
+ * @property {Number} main_contact_id - ID основного контакта
+ * или false, в случае его отсутствия
+ * @property {String} period_id - Уникальный идентификатор периода
+ * @property {Array} custom_fields - Массив полей элемента,
+ * если они есть, иначе пустой массив
+ */
+
+/**
+ * @typedef {Object} Transaction
+ * @description Транзакция - это сущность которая описывает
+ * основные характеристики покупки (дата и сумма).
+ * Является дополнением для "покупателя".
+ * @property {Number} id - Уникальный идентификатор элемента
+ * @property {Number} account_id - Уникальный идентификатор аккаунта
+ * @property {Number} customer_id - Уникальный идентификатор покупателя
+ * @property {Number} created_by - ID пользователя, создавшего покупателя
+ * @property {Number} modified_by - ID пользователя, изменившего покупателя
+ * @property {Number} date - Дата совершенной покупки (timestamp)
+ * @property {Number} price - Сумма покупки
+ * @property {Number} deleted - свойство корзины
+ * @property {Number} date_create - Дата создания (timestamp)
+ * @property {Number} date_modify - Дата изменения (timestamp)
  */
 
 /**
@@ -112,8 +171,11 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @memberOf AmoV3ApiClient
      * @instance
      * @public
-     * @param {Array.<Link>} links
-     * @param {boolean} [keepErrorsInResponse]
+     * @param {Array.<Link>} links - Массив связей между сущностями.
+     * для обновления связи передавать её id нет необходимости.
+     * @param {boolean} [keepErrorsInResponse] - если true, то
+     * результат будет выглядеть {errors: Array, links: Array}.
+     * Если false - результатом будет массив связей
      * @return {Promise}
      */
 
@@ -123,8 +185,11 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @memberOf AmoV3ApiClient
      * @instance
      * @public
-     * @param {Array.<Link>} links
-     * @param {boolean} [keepErrorsInResponse]
+     * @param {Array.<Link>} links - Массив связей,
+     * которые необходимо разорвать
+     * @param {boolean} [keepErrorsInResponse] - если true, то
+     * результат будет выглядеть {errors: Array, links: Array}.
+     * Если false - результатом будет массив разорванных связей
      * @return {Promise}
      */
 
@@ -135,8 +200,10 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Object} data
-     * @param {Array.<Link>} [data.link]
-     * @param {Array.<Link>} [data.unlink]
+     * @param {Array.<Link>} [data.link] - Массив связей между сущностями.
+     * для обновления связи передавать её id нет необходимости.
+     * @param {Array.<Link>} [data.unlink] - Массив связей,
+     * которые необходимо разорвать
      * @param {Object} [qs]
      * @return {Promise}
      */
@@ -148,7 +215,30 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Object} [qs]
-     * @param {boolean} [withPagination]
+     * @param {Number} [qs.limit_rows] - Количество
+     * выбираемых строк (системное ограничение 500)
+     * @param {Number} [qs.limit_offset] - Оффсет выборки
+     * (Работает, только при условии, что limit_rows тоже указан)
+     * @param {Number} [qs.filter.id] - Выбрать элемент
+     * с заданным ID (нужно передавать массив идентификаторов)
+     * @param {Object|Number} [qs.filter.date] - Выбрать элемент
+     * по дате создания или редактирования
+     * @param {String} [qs.filter.date.type] - Тип даты:
+     * create или modify
+     * @param {Number} [qs.filter.date.from] - Дата
+     * с которой нужно начинать выборку (timestamp)
+     * @param {Number} [qs.filter.date.to] - Дата до которой нужно выбирать
+     * (timestamp)
+     * @param {Object|Number} [qs.filter.next_date] - Выбрать элемент по дате
+     * следующей покупки (нужно передавать массив с параметрами from, to)
+     * @param {Number} [qs.filter.next_date.from] - Аналогично filter.date.from
+     * @param {Number} [qs.filter.next_date.to] - Аналогично filter.date.to
+     * @param {Number|Array.<Number>} [qs.filter.main_user] - Выбрать элемент
+     * по ответственному пользователю
+     * @param {boolean} [withPagination] - если true, то
+     * результат будет выглядеть
+     * {customers: Array, pagination: {current: Number, total: Number}.
+     * Если false - результатом будет массив покупателей
      * @return {Promise}
      */
 
@@ -158,8 +248,11 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @memberOf AmoV3ApiClient
      * @instance
      * @public
-     * @param {Array} customers
-     * @param {boolean} [keepErrorsInResponse]
+     * @param {Array.<Customer>} customers - Массив покупателей,
+     * которых необходимо создать
+     * @param {boolean} [keepErrorsInResponse] - если true, то
+     * результат будет выглядеть {errors: Array, customers: Array}.
+     * Если false - результатом будет массив покупателей
      * @return {Promise}
      */
 
@@ -169,8 +262,11 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @memberOf AmoV3ApiClient
      * @instance
      * @public
-     * @param {Array} customers
-     * @param {boolean} [keepErrorsInResponse]
+     * @param {Array.<Customer>} customers - Массив покупателей,
+     * которых необходимо изменить
+     * @param {boolean} [keepErrorsInResponse] - если true, то
+     * результат будет выглядеть {errors: Array, customers: Array}.
+     * Если false - результатом будет массив покупателей
      * @return {Promise}
      */
 
@@ -181,8 +277,8 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Object} data
-     * @param {Array} [data.add]
-     * @param {Array} [data.update]
+     * @param {Array.<Customer>} [data.add] - См. addCustomers
+     * @param {Array.<Customer>} [data.update] - См. updateCustomers
      * @param {Object} [qs]
      * @return {Promise}
      */
@@ -193,8 +289,11 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @memberOf AmoV3ApiClient
      * @instance
      * @public
-     * @param {Array.<Number>} ids
-     * @param {boolean} [keepErrorsInResponse]
+     * @param {Array.<Number>} ids - ID покупателей, которых необходимо удалить
+     * @param {boolean} [keepErrorsInResponse] - если true, то
+     * результат будет выглядеть {errors: Array, customers: Array}.
+     * Если false - результатом будет массив
+     * мета-информации удалённых покупателей
      * @return {Promise}
      */
 
@@ -205,6 +304,14 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Object} [qs]
+     * @param {Number} [qs.limit_rows] - Количество
+     * выбираемых строк (системное ограничение 500)
+     * @param {Number} [qs.limit_offset] - Оффсет выборки
+     * (Работает, только при условии, что limit_rows тоже указан)
+     * @param {Number} [qs.filter.id] - Выбрать элемент
+     * с заданным ID (нужно передавать массив идентификаторов)
+     * @param {Number|Array.<Number>} [qs.customer_id] - Выбрать транзакции
+     * конкретных покупателей
      * @param {boolean} [withPagination]
      * @return {Promise}
      */
@@ -215,8 +322,10 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @memberOf AmoV3ApiClient
      * @instance
      * @public
-     * @param {Array} transactions
-     * @param {boolean} [keepErrorsInResponse]
+     * @param {Array.<Transaction>} transactions
+     * @param {boolean} [keepErrorsInResponse] - если true, то
+     * результат будет выглядеть {errors: Array, transactions: Array}.
+     * Если false - результатом будет массив транзакций
      * @return {Promise}
      */
 
@@ -226,8 +335,10 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @memberOf AmoV3ApiClient
      * @instance
      * @public
-     * @param {Array} transactions
-     * @param {boolean} [keepErrorsInResponse]
+     * @param {Array.<Transaction>} transactions
+     * @param {boolean} [keepErrorsInResponse] - если true, то
+     * результат будет выглядеть {errors: Array, transactions: Array}.
+     * Если false - результатом будет массив транзакций
      * @return {Promise}
      */
 
@@ -238,8 +349,8 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Object} data
-     * @param {Array} [data.add]
-     * @param {Array} [data.update]
+     * @param {Array.<Transaction>} [data.add] - См. addTransactions
+     * @param {Array.<Transaction>} [data.update] - См. updateTransactions
      * @param {Object} [qs]
      * @return {Promise}
      */
@@ -251,7 +362,10 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Array.<Number>} ids
-     * @param {boolean} [keepErrorsInResponse]
+     * @param {boolean} [keepErrorsInResponse] - если true, то
+     * результат будет выглядеть {errors: Array, transactions: Array}.
+     * Если false - результатом будет массив
+     * мета-информации удалённых транзакций
      * @return {Promise}
      */
 

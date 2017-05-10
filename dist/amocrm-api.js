@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getPromoClient = exports.getApiV2Client = undefined;
 
-var _request = require('request');
+var _requester = require('./libs/helpers/requester');
 
-var _request2 = _interopRequireDefault(_request);
+var _requester2 = _interopRequireDefault(_requester);
 
 var _promo = require('./libs/clients/promo');
 
@@ -28,7 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {PromoClientClass}
  */
 function getPromoClient() {
-  return new _promo2.default(_request2.default);
+  return new _promo2.default(_requester2.default);
 }
 
 /**
@@ -36,7 +36,7 @@ function getPromoClient() {
  * @return {AmoV2ApiClient}
  */
 function getApiV2Client() {
-  return new _apiV2.default(_request2.default, getPromoClient());
+  return new _apiV2.default(_requester2.default, getPromoClient());
 }
 
 /**
@@ -44,7 +44,7 @@ function getApiV2Client() {
  * @return {AmoV3ApiClient}
  */
 function getApiV3Client() {
-  return new _apiV4.default(_request2.default, getPromoClient());
+  return new _apiV4.default(_requester2.default, getPromoClient());
 }
 
 exports.getApiV2Client = getApiV2Client;
