@@ -1,4 +1,4 @@
-import request from 'request';
+import Requester from './libs/helpers/requester';
 import PromoClientClass from './libs/clients/promo';
 import AmoV2ApiClient from './libs/clients/api-v2';
 import AmoV3ApiClient from './libs/clients/api-v3';
@@ -8,7 +8,7 @@ import AmoV3ApiClient from './libs/clients/api-v3';
  * @return {PromoClientClass}
  */
 function getPromoClient() {
-  return new PromoClientClass(request);
+  return new PromoClientClass(Requester);
 }
 
 /**
@@ -16,7 +16,7 @@ function getPromoClient() {
  * @return {AmoV2ApiClient}
  */
 function getApiV2Client() {
-  return new AmoV2ApiClient(request, getPromoClient());
+  return new AmoV2ApiClient(Requester, getPromoClient());
 }
 
 /**
@@ -24,7 +24,7 @@ function getApiV2Client() {
  * @return {AmoV3ApiClient}
  */
 function getApiV3Client() {
-  return new AmoV3ApiClient(request, getPromoClient());
+  return new AmoV3ApiClient(Requester, getPromoClient());
 }
 
 export {getApiV2Client, getPromoClient};
