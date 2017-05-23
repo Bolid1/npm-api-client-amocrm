@@ -72,10 +72,11 @@ class AmoApiClient {
     return new Promise((resolve, reject) => {
       const authData = `${subdomain}_${login}_${key}`;
 
-      if (this._lastAuthInfo.authData === authData) {
+      if (this._cookie !== null && this._lastAuthInfo.authData === authData) {
         return resolve(this._lastAuthInfo.auth);
       }
 
+      this._lastAuthInfo = {};
       this._resolveAccountAddress(subdomain).then((address) => {
         this._setBaseUrl(address);
         let form = {
@@ -85,12 +86,38 @@ class AmoApiClient {
 
         this._initCookie();
         this._post('auth', form, {type: 'json'}).then((auth) => {
-            this._lastAuthInfo = {auth, authData};
+            this._lastAuthInfo = {auth, authData, subdomain, login, key};
             resolve(auth);
           },
           reject
         );
       }, reject);
+    });
+  }
+
+  /**
+   * @return {Promise}
+   * @memberOf AmoApiClient
+   * @instance
+   * @private
+   */
+  _repeatAuth() {
+    return new Promise((resolve, reject) => {
+      const authInfo = this._lastAuthInfo;
+      this._cookie = null;
+
+      if (!(authInfo.subdomain && authInfo.login && authInfo.key)) {
+        reject('Empty authInfo');
+      }
+
+      this.auth(
+        authInfo.subdomain,
+        authInfo.login,
+        authInfo.key
+      ).then(
+        (response) => response.auth ? resolve(response) : reject(response),
+        reject
+      );
     });
   }
 
@@ -221,11 +248,12 @@ class AmoApiClient {
    * @param {Object} params
    * @param {function} resolve
    * @param {function} reject
+   * @param {Object} [queryParams]
    * @private
    * @memberOf AmoApiClient
    * @instance
    */
-  _query(type, params, resolve, reject) {
+  _query(type, params, resolve, reject, queryParams = {}) {
     params.jar = this._cookie;
 
     this._request[type](params, (err, httpResponse, body) => {
@@ -249,6 +277,19 @@ class AmoApiClient {
 
       if (body.response) {
         body = body.response;
+      }
+
+      if (body.error_code) {
+        body.error_code = parseInt(body.error_code);
+
+        if (body.error_code === 110 && queryParams.repeat_auth !== false) {
+          return this._repeatAuth().then(
+            () => {
+              this._query(type, params, resolve, reject, {repeat_auth: false});
+            },
+            () => resolve(body)
+          );
+        }
       }
 
       resolve(body);

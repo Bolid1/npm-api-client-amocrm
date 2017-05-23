@@ -56,3 +56,18 @@ it('Should fail auth in test account', () => {
     expect(res.auth).toBe(false);
   });
 });
+
+it('Should reauthorize when error code 110', () => {
+  const promise = new Promise((resolve, reject) => {
+    amoApiClient.auth(subdomain, login, key).then(() => {
+      amoApiClient._cookie = null;
+      amoApiClient.current().then(resolve, reject);
+    }, reject);
+  });
+
+  return promise.then((res) => {
+    expect(res).toBeInstanceOf(Object);
+
+    expect(res.subdomain).toEqual(subdomain);
+  });
+}, 10000);

@@ -97,10 +97,11 @@ var AmoApiClient = function () {
       return new Promise(function (resolve, reject) {
         var authData = subdomain + '_' + login + '_' + key;
 
-        if (_this._lastAuthInfo.authData === authData) {
+        if (_this._cookie !== null && _this._lastAuthInfo.authData === authData) {
           return resolve(_this._lastAuthInfo.auth);
         }
 
+        _this._lastAuthInfo = {};
         _this._resolveAccountAddress(subdomain).then(function (address) {
           _this._setBaseUrl(address);
           var form = {
@@ -110,9 +111,35 @@ var AmoApiClient = function () {
 
           _this._initCookie();
           _this._post('auth', form, { type: 'json' }).then(function (auth) {
-            _this._lastAuthInfo = { auth: auth, authData: authData };
+            _this._lastAuthInfo = { auth: auth, authData: authData, subdomain: subdomain, login: login, key: key };
             resolve(auth);
           }, reject);
+        }, reject);
+      });
+    }
+
+    /**
+     * @return {Promise}
+     * @memberOf AmoApiClient
+     * @instance
+     * @private
+     */
+
+  }, {
+    key: '_repeatAuth',
+    value: function _repeatAuth() {
+      var _this2 = this;
+
+      return new Promise(function (resolve, reject) {
+        var authInfo = _this2._lastAuthInfo;
+        _this2._cookie = null;
+
+        if (!(authInfo.subdomain && authInfo.login && authInfo.key)) {
+          reject('Empty authInfo');
+        }
+
+        _this2.auth(authInfo.subdomain, authInfo.login, authInfo.key).then(function (response) {
+          return response.auth ? resolve(response) : reject(response);
         }, reject);
       });
     }
@@ -127,10 +154,10 @@ var AmoApiClient = function () {
   }, {
     key: 'current',
     value: function current() {
-      var _this2 = this;
+      var _this3 = this;
 
       return new Promise(function (resolve, reject) {
-        _this2._get('account/current').then(function (res) {
+        _this3._get('account/current').then(function (res) {
           if (res.account) {
             resolve(res.account);
           } else {
@@ -151,10 +178,10 @@ var AmoApiClient = function () {
   }, {
     key: '_resolveAccountAddress',
     value: function _resolveAccountAddress(subdomain) {
-      var _this3 = this;
+      var _this4 = this;
 
       return new Promise(function (resolve, reject) {
-        _this3._promo.getAccountInfoBySubdomain(subdomain).then(function (info) {
+        _this4._promo.getAccountInfoBySubdomain(subdomain).then(function (info) {
           return resolve('https://' + info.account_domain);
         }, reject);
       });
@@ -219,12 +246,12 @@ var AmoApiClient = function () {
   }, {
     key: '_get',
     value: function _get(path, qs) {
-      var _this4 = this;
+      var _this5 = this;
 
       return new Promise(function (resolve, reject) {
-        var url = _this4._buildUrl(path, reject);
+        var url = _this5._buildUrl(path, reject);
         if (url !== null) {
-          _this4._query('get', { url: url, qs: qs }, resolve, reject);
+          _this5._query('get', { url: url, qs: qs }, resolve, reject);
         }
       });
     }
@@ -243,7 +270,7 @@ var AmoApiClient = function () {
   }, {
     key: '_post',
     value: function _post(path, form, qs) {
-      var _this5 = this;
+      var _this6 = this;
 
       return new Promise(function (resolve, reject) {
         if (!form) {
@@ -254,9 +281,9 @@ var AmoApiClient = function () {
           return reject({ message: 'Form data must be an Object', form: form });
         }
 
-        var url = _this5._buildUrl(path, reject);
+        var url = _this6._buildUrl(path, reject);
         if (url !== null) {
-          _this5._query('post', { url: url, form: form, qs: qs }, resolve, reject);
+          _this6._query('post', { url: url, form: form, qs: qs }, resolve, reject);
         }
       });
     }
@@ -267,6 +294,7 @@ var AmoApiClient = function () {
      * @param {Object} params
      * @param {function} resolve
      * @param {function} reject
+     * @param {Object} [queryParams]
      * @private
      * @memberOf AmoApiClient
      * @instance
@@ -275,6 +303,10 @@ var AmoApiClient = function () {
   }, {
     key: '_query',
     value: function _query(type, params, resolve, reject) {
+      var _this7 = this;
+
+      var queryParams = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
+
       params.jar = this._cookie;
 
       this._request[type](params, function (err, httpResponse, body) {
@@ -298,6 +330,18 @@ var AmoApiClient = function () {
 
         if (body.response) {
           body = body.response;
+        }
+
+        if (body.error_code) {
+          body.error_code = parseInt(body.error_code);
+
+          if (body.error_code === 110 && queryParams.repeat_auth !== false) {
+            return _this7._repeatAuth().then(function () {
+              _this7._query(type, params, resolve, reject, { repeat_auth: false });
+            }, function () {
+              return resolve(body);
+            });
+          }
         }
 
         resolve(body);
