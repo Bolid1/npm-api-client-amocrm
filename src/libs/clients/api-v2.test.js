@@ -5,14 +5,13 @@ import PromoClientClass from './promo';
 import testConfig from '../../../config/test.js';
 
 const amoApiClient = new AmoV2ApiClient(
-  Requester,
-  new PromoClientClass(Requester)
+    Requester,
+    new PromoClientClass(Requester)
 );
 
 const subdomain = testConfig.subdomain;
 const login = testConfig.login;
 const key = testConfig.key;
-
 
 it('Should work with contacts list', () => {
   const promise = new Promise((resolve, reject) => {
@@ -27,7 +26,6 @@ it('Should work with contacts list', () => {
 
     contact = _.first(res);
     expect(contact).toBeInstanceOf(Object);
-    expect(contact.type).toBe('contact');
   });
 });
 
@@ -44,7 +42,6 @@ it('Should work with companies list', () => {
 
     company = _.first(res);
     expect(company).toBeInstanceOf(Object);
-    expect(company.type).toBe('company');
   });
 });
 
@@ -105,11 +102,9 @@ it('Should work with contacts set', () => {
 
   return promise.then((res) => {
     let contact;
-    expect(res).toBeInstanceOf(Object);
-    expect(res).toHaveProperty('add');
-    expect(res.add).toBeInstanceOf(Array);
+    expect(res).toBeInstanceOf(Array);
 
-    contact = _.first(res.add);
+    contact = _.first(res);
     expect(contact).toBeInstanceOf(Object);
     expect(contact).toHaveProperty('id');
   });
@@ -124,11 +119,9 @@ it('Should work with companies set', () => {
 
   return promise.then((res) => {
     let company;
-    expect(res).toBeInstanceOf(Object);
-    expect(res).toHaveProperty('add');
-    expect(res.add).toBeInstanceOf(Array);
+    expect(res).toBeInstanceOf(Array);
 
-    company = _.first(res.add);
+    company = _.first(res);
     expect(company).toBeInstanceOf(Object);
     expect(company).toHaveProperty('id');
   });
@@ -137,17 +130,16 @@ it('Should work with companies set', () => {
 it('Should work with leads set', () => {
   const promise = new Promise((resolve, reject) => {
     amoApiClient.auth(subdomain, login, key).then(() => {
-      amoApiClient.setLeads({add: [{name: 'Test'}]}).then(resolve, reject);
+      amoApiClient.setLeads({add: [{name: 'Test', contacts_id: 3780695}]}).
+          then(resolve, reject);
     }, reject);
   });
 
   return promise.then((res) => {
     let lead;
-    expect(res).toBeInstanceOf(Object);
-    expect(res).toHaveProperty('add');
-    expect(res.add).toBeInstanceOf(Array);
+    expect(res).toBeInstanceOf(Array);
 
-    lead = _.first(res.add);
+    lead = _.first(res);
     expect(lead).toHaveProperty('id');
   });
 });
