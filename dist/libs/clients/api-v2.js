@@ -40,14 +40,11 @@ var AmoV2ApiClient = function (_AmoApiClient) {
 
     var _this = _possibleConstructorReturn(this, (AmoV2ApiClient.__proto__ || Object.getPrototypeOf(AmoV2ApiClient)).call(this, request, promoClient));
 
-    var elementsPaths = {
-      'companies/list': 'private/api/v2/json/companies/list/',
-      'companies/set': 'private/api/v2/json/company/set/'
-    };
+    var elementsPaths = {};
 
-    _underscore2.default.each(['contacts', 'leads', 'tasks', 'notes'], function (entity) {
-      elementsPaths[entity + '/list'] = 'private/api/v2/json/' + entity + '/list/';
-      elementsPaths[entity + '/set'] = 'private/api/v2/json/' + entity + '/set/';
+    _underscore2.default.each(['contacts', 'companies', 'leads', 'tasks', 'notes'], function (entity) {
+      elementsPaths[entity + '/list'] = 'api/v2/' + entity + '/';
+      elementsPaths[entity + '/set'] = 'api/v2/' + entity + '/';
     });
 
     // noinspection JSAccessibilityCheck
@@ -315,7 +312,7 @@ var AmoV2ApiClient = function (_AmoApiClient) {
       return function (qs, withPagination) {
         return new Promise(function (resolve, reject) {
           _this2._get(entity + '/list', qs).then(function (res) {
-            if (!res[entity]) {
+            if (!res || !res._embedded || !res._embedded.items) {
               return reject(res);
             }
 
@@ -323,7 +320,7 @@ var AmoV2ApiClient = function (_AmoApiClient) {
               return resolve(res);
             }
 
-            return resolve(res[entity]);
+            return resolve(res._embedded.items);
           }, reject);
         });
       };
@@ -344,23 +341,17 @@ var AmoV2ApiClient = function (_AmoApiClient) {
 
       return function (data, qs) {
         return new Promise(function (resolve, reject) {
-          var form = { request: {} };
-          form.request[entity] = data;
-
-          _this3._post(entity + '/set', form, qs).then(function (resp) {
-            return _this3._resolveAction(null, entity, resp, resolve, reject);
+          _this3._post(entity + '/set', data, qs).then(function (resp) {
+            return _this3._resolveAction(resp, resolve, reject);
           }, reject);
         });
       };
     }
 
     /**
-     * @param {string|null} action
-     * @param {string|null} entity
      * @param {Object} resp
      * @param {function} resolve
      * @param {function} reject
-     * @param {boolean} [keepErrors]
      * @return {*}
      * @protected
      * @memberOf AmoV2ApiClient
@@ -369,30 +360,16 @@ var AmoV2ApiClient = function (_AmoApiClient) {
 
   }, {
     key: '_resolveAction',
-    value: function _resolveAction(action, entity, resp, resolve, reject, keepErrors) {
-      if (action === null && entity !== null) {
-        action = entity;
-        entity = null;
-      }
-
-      if (!resp[action]) {
+    value: function _resolveAction(resp, resolve, reject) {
+      if (!resp || !resp._embedded || !resp._embedded.items) {
         return reject(resp);
       }
 
-      if (entity !== null) {
-        if (_underscore2.default.has(resp[action], entity) && _underscore2.default.has(resp[action], 'errors')) {
-          if (keepErrors !== true) {
-            return resolve(resp[action][entity]);
-          }
-        }
-      }
-
-      return resolve(resp[action]);
+      return resolve(resp._embedded.items);
     }
 
     /**
      * @param {string} entity
-     * @param {boolean} [checkErrors]
      * @return {function(*)}
      * @protected
      * @memberOf AmoV2ApiClient
@@ -401,13 +378,12 @@ var AmoV2ApiClient = function (_AmoApiClient) {
 
   }, {
     key: '_buildAddMethod',
-    value: function _buildAddMethod(entity, checkErrors) {
-      return this._buildActionMethod('add', entity, checkErrors);
+    value: function _buildAddMethod(entity) {
+      return this._buildActionMethod('add', entity);
     }
 
     /**
      * @param {string} entity
-     * @param {boolean} [checkErrors]
      * @return {function(*)}
      * @protected
      * @memberOf AmoV2ApiClient
@@ -416,14 +392,13 @@ var AmoV2ApiClient = function (_AmoApiClient) {
 
   }, {
     key: '_buildUpdateMethod',
-    value: function _buildUpdateMethod(entity, checkErrors) {
-      return this._buildActionMethod('update', entity, checkErrors);
+    value: function _buildUpdateMethod(entity) {
+      return this._buildActionMethod('update', entity);
     }
 
     /**
      * @param {string} action
      * @param {string} entity
-     * @param {boolean} [checkErrors]
      * @return {function(*)}
      * @protected
      * @memberOf AmoV2ApiClient
@@ -432,18 +407,16 @@ var AmoV2ApiClient = function (_AmoApiClient) {
 
   }, {
     key: '_buildActionMethod',
-    value: function _buildActionMethod(action, entity, checkErrors) {
+    value: function _buildActionMethod(action, entity) {
       var _this4 = this;
 
-      return function (elements, saveErrorsInResponse) {
+      return function (elements) {
         var entityCamel = entity.substr(0, 1).toUpperCase() + entity.substr(1);
         var form = {};
         form[action] = elements;
 
         return new Promise(function (resolve, reject) {
-          _this4['set' + entityCamel](form).then(function (resp) {
-            return _this4._resolveAction(action, entity, resp, resolve, reject, checkErrors === true && saveErrorsInResponse === true);
-          }, reject);
+          _this4['set' + entityCamel](form).then(resolve, reject);
         });
       };
     }

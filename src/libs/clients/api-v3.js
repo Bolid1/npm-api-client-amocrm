@@ -92,8 +92,8 @@ class AmoV3ApiClient extends AmoV2ApiClient {
 
     _.each(v3Elements, (entityCamel, entity) => {
       let pagination = entity !== 'catalogs';
-      elementsPaths[`${entity}/list`] = `private/api/v2/json/${entity}/list/`;
-      elementsPaths[`${entity}/set`] = `private/api/v2/json/${entity}/set/`;
+      elementsPaths[`${entity}/list`] = `api/v2/${entity}/`;
+      elementsPaths[`${entity}/set`] = `api/v2/${entity}/`;
 
       this[`list${entityCamel}`] = this._buildListMethod(entity, pagination);
       this[`set${entityCamel}`] = this._buildSetMethod(entity);
@@ -102,8 +102,8 @@ class AmoV3ApiClient extends AmoV2ApiClient {
       this[`delete${entityCamel}`] = this._buildDeleteMethod(entity, true);
     }, this);
 
-    elementsPaths['links/list'] = 'private/api/v2/json/links/list/';
-    elementsPaths['links/set'] = 'private/api/v2/json/links/set/';
+    elementsPaths['links/list'] = 'api/v2/links/';
+    elementsPaths['links/set'] = 'api/v2/links/';
     this.setLinks = this._buildSetMethod('links');
     this.linkLinks = this._buildActionMethod('link', 'links', true);
     this.unlinkLinks = this._buildActionMethod('unlink', 'links', true);
@@ -123,13 +123,13 @@ class AmoV3ApiClient extends AmoV2ApiClient {
   listLinks(links) {
     return new Promise((resolve, reject) => {
       this._get('links/list', {links}).then((res) => {
-          if (!res.links) {
-            return reject(res);
-          }
+            if (!res.links) {
+              return reject(res);
+            }
 
-          return resolve(res.links);
-        },
-        reject
+            return resolve(res.links);
+          },
+          reject
       );
     });
   }
@@ -142,9 +142,6 @@ class AmoV3ApiClient extends AmoV2ApiClient {
    * @public
    * @param {Array.<Link>} links - Массив связей между сущностями.
    * для обновления связи передавать её id нет необходимости.
-   * @param {boolean} [keepErrorsInResponse] - если true, то
-   * результат будет выглядеть {errors: Array, links: Array}.
-   * Если false - результатом будет массив связей
    * @return {Promise}
    */
 
@@ -156,9 +153,6 @@ class AmoV3ApiClient extends AmoV2ApiClient {
    * @public
    * @param {Array.<Link>} links - Массив связей,
    * которые необходимо разорвать
-   * @param {boolean} [keepErrorsInResponse] - если true, то
-   * результат будет выглядеть {errors: Array, links: Array}.
-   * Если false - результатом будет массив разорванных связей
    * @return {Promise}
    */
 
@@ -219,9 +213,6 @@ class AmoV3ApiClient extends AmoV2ApiClient {
    * @public
    * @param {Array.<Customer>} customers - Массив покупателей,
    * которых необходимо создать
-   * @param {boolean} [keepErrorsInResponse] - если true, то
-   * результат будет выглядеть {errors: Array, customers: Array}.
-   * Если false - результатом будет массив покупателей
    * @return {Promise}
    */
 
@@ -233,9 +224,6 @@ class AmoV3ApiClient extends AmoV2ApiClient {
    * @public
    * @param {Array.<Customer>} customers - Массив покупателей,
    * которых необходимо изменить
-   * @param {boolean} [keepErrorsInResponse] - если true, то
-   * результат будет выглядеть {errors: Array, customers: Array}.
-   * Если false - результатом будет массив покупателей
    * @return {Promise}
    */
 
@@ -259,10 +247,6 @@ class AmoV3ApiClient extends AmoV2ApiClient {
    * @instance
    * @public
    * @param {Array.<Number>} ids - ID покупателей, которых необходимо удалить
-   * @param {boolean} [keepErrorsInResponse] - если true, то
-   * результат будет выглядеть {errors: Array, customers: Array}.
-   * Если false - результатом будет массив
-   * мета-информации удалённых покупателей
    * @return {Promise}
    */
 
@@ -292,9 +276,6 @@ class AmoV3ApiClient extends AmoV2ApiClient {
    * @instance
    * @public
    * @param {Array.<Transaction>} transactions
-   * @param {boolean} [keepErrorsInResponse] - если true, то
-   * результат будет выглядеть {errors: Array, transactions: Array}.
-   * Если false - результатом будет массив транзакций
    * @return {Promise}
    */
 
@@ -305,9 +286,6 @@ class AmoV3ApiClient extends AmoV2ApiClient {
    * @instance
    * @public
    * @param {Array.<Transaction>} transactions
-   * @param {boolean} [keepErrorsInResponse] - если true, то
-   * результат будет выглядеть {errors: Array, transactions: Array}.
-   * Если false - результатом будет массив транзакций
    * @return {Promise}
    */
 
@@ -355,7 +333,6 @@ class AmoV3ApiClient extends AmoV2ApiClient {
    * @instance
    * @public
    * @param {Array} catalogs
-   * @param {boolean} [keepErrorsInResponse]
    * @return {Promise}
    */
 
@@ -366,7 +343,6 @@ class AmoV3ApiClient extends AmoV2ApiClient {
    * @instance
    * @public
    * @param {Array} catalogs
-   * @param {boolean} [keepErrorsInResponse]
    * @return {Promise}
    */
 
@@ -390,7 +366,6 @@ class AmoV3ApiClient extends AmoV2ApiClient {
    * @instance
    * @public
    * @param {Array.<Number>} ids
-   * @param {boolean} [keepErrorsInResponse]
    * @return {Promise}
    */
 
@@ -412,7 +387,6 @@ class AmoV3ApiClient extends AmoV2ApiClient {
    * @instance
    * @public
    * @param {Array} catalog elements
-   * @param {boolean} [keepErrorsInResponse]
    * @return {Promise}
    */
 
@@ -423,7 +397,6 @@ class AmoV3ApiClient extends AmoV2ApiClient {
    * @instance
    * @public
    * @param {Array} catalog elements
-   * @param {boolean} [keepErrorsInResponse]
    * @return {Promise}
    */
 
@@ -447,20 +420,18 @@ class AmoV3ApiClient extends AmoV2ApiClient {
    * @instance
    * @public
    * @param {Array.<Number>} ids
-   * @param {boolean} [keepErrorsInResponse]
    * @return {Promise}
    */
 
   /**
    * @param {string} entity
-   * @param {boolean} [checkErrors]
    * @return {function(*)}
    * @protected
    * @instance
    * @memberOf AmoV3ApiClient
    */
-  _buildDeleteMethod(entity, checkErrors) {
-    return this._buildActionMethod('add', entity, checkErrors);
+  _buildDeleteMethod(entity) {
+    return this._buildActionMethod('add', entity);
   }
 }
 

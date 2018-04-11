@@ -12,14 +12,11 @@ class AmoV2ApiClient extends AmoApiClient {
    */
   constructor(request, promoClient) {
     super(request, promoClient);
-    let elementsPaths = {
-      'companies/list': 'private/api/v2/json/companies/list/',
-      'companies/set': 'private/api/v2/json/company/set/',
-    };
+    let elementsPaths = {};
 
-    _.each(['contacts', 'leads', 'tasks', 'notes'], (entity) => {
-      elementsPaths[`${entity}/list`] = `private/api/v2/json/${entity}/list/`;
-      elementsPaths[`${entity}/set`] = `private/api/v2/json/${entity}/set/`;
+    _.each(['contacts', 'companies', 'leads', 'tasks', 'notes'], (entity) => {
+      elementsPaths[`${entity}/list`] = `api/v2/${entity}/`;
+      elementsPaths[`${entity}/set`] = `api/v2/${entity}/`;
     });
 
     // noinspection JSAccessibilityCheck
@@ -274,17 +271,17 @@ class AmoV2ApiClient extends AmoApiClient {
     return (qs, withPagination) => {
       return new Promise((resolve, reject) => {
         this._get(`${entity}/list`, qs).then((res) => {
-            if (!res[entity]) {
-              return reject(res);
-            }
+              if (!res || !res._embedded || !res._embedded.items) {
+                return reject(res);
+              }
 
-            if (checkPagination === true && withPagination === true) {
-              return resolve(res);
-            }
+              if (checkPagination === true && withPagination === true) {
+                return resolve(res);
+              }
 
-            return resolve(res[entity]);
-          },
-          reject
+              return resolve(res._embedded.items);
+            },
+            reject
         );
       });
     };
@@ -300,102 +297,69 @@ class AmoV2ApiClient extends AmoApiClient {
   _buildSetMethod(entity) {
     return (data, qs) => {
       return new Promise((resolve, reject) => {
-        let form = {request: {}};
-        form.request[entity] = data;
-
-        this._post(`${entity}/set`, form, qs).then(
-          (resp) => this._resolveAction(null, entity, resp, resolve, reject),
-          reject
+        this._post(`${entity}/set`, data, qs).then(
+            (resp) => this._resolveAction(resp, resolve, reject),
+            reject
         );
       });
     };
   }
 
   /**
-   * @param {string|null} action
-   * @param {string|null} entity
    * @param {Object} resp
    * @param {function} resolve
    * @param {function} reject
-   * @param {boolean} [keepErrors]
    * @return {*}
    * @protected
    * @memberOf AmoV2ApiClient
    * @instance
    */
-  _resolveAction(action, entity, resp, resolve, reject, keepErrors) {
-    if (action === null && entity !== null) {
-      action = entity;
-      entity = null;
-    }
-
-    if (!resp[action]) {
+  _resolveAction(resp, resolve, reject) {
+    if (!resp || !resp._embedded || !resp._embedded.items) {
       return reject(resp);
     }
 
-    if (entity !== null) {
-      if (_.has(resp[action], entity) && _.has(resp[action], 'errors')) {
-        if (keepErrors !== true) {
-          return resolve(resp[action][entity]);
-        }
-      }
-    }
-
-
-    return resolve(resp[action]);
+    return resolve(resp._embedded.items);
   }
 
   /**
    * @param {string} entity
-   * @param {boolean} [checkErrors]
    * @return {function(*)}
    * @protected
    * @memberOf AmoV2ApiClient
    * @instance
    */
-  _buildAddMethod(entity, checkErrors) {
-    return this._buildActionMethod('add', entity, checkErrors);
+  _buildAddMethod(entity) {
+    return this._buildActionMethod('add', entity);
   }
 
   /**
    * @param {string} entity
-   * @param {boolean} [checkErrors]
    * @return {function(*)}
    * @protected
    * @memberOf AmoV2ApiClient
    * @instance
    */
-  _buildUpdateMethod(entity, checkErrors) {
-    return this._buildActionMethod('update', entity, checkErrors);
+  _buildUpdateMethod(entity) {
+    return this._buildActionMethod('update', entity);
   }
 
   /**
    * @param {string} action
    * @param {string} entity
-   * @param {boolean} [checkErrors]
    * @return {function(*)}
    * @protected
    * @memberOf AmoV2ApiClient
    * @instance
    */
-  _buildActionMethod(action, entity, checkErrors) {
-    return (elements, saveErrorsInResponse) => {
+  _buildActionMethod(action, entity) {
+    return (elements) => {
       let entityCamel = entity.substr(0, 1).toUpperCase() + entity.substr(1);
       let form = {};
       form[action] = elements;
 
       return new Promise((resolve, reject) => {
-        this[`set${entityCamel}`](form).then(
-          (resp) => this._resolveAction(
-            action,
-            entity,
-            resp,
-            resolve,
-            reject,
-            checkErrors === true && saveErrorsInResponse === true
-          ),
-          reject
-        );
+        this[`set${entityCamel}`](form).then(resolve, reject);
       });
     };
   }

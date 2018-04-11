@@ -118,8 +118,8 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
 
     _underscore2.default.each(v3Elements, function (entityCamel, entity) {
       var pagination = entity !== 'catalogs';
-      elementsPaths[entity + '/list'] = 'private/api/v2/json/' + entity + '/list/';
-      elementsPaths[entity + '/set'] = 'private/api/v2/json/' + entity + '/set/';
+      elementsPaths[entity + '/list'] = 'api/v2/' + entity + '/';
+      elementsPaths[entity + '/set'] = 'api/v2/' + entity + '/';
 
       _this['list' + entityCamel] = _this._buildListMethod(entity, pagination);
       _this['set' + entityCamel] = _this._buildSetMethod(entity);
@@ -128,8 +128,8 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
       _this['delete' + entityCamel] = _this._buildDeleteMethod(entity, true);
     }, _this);
 
-    elementsPaths['links/list'] = 'private/api/v2/json/links/list/';
-    elementsPaths['links/set'] = 'private/api/v2/json/links/set/';
+    elementsPaths['links/list'] = 'api/v2/links/';
+    elementsPaths['links/set'] = 'api/v2/links/';
     _this.setLinks = _this._buildSetMethod('links');
     _this.linkLinks = _this._buildActionMethod('link', 'links', true);
     _this.unlinkLinks = _this._buildActionMethod('unlink', 'links', true);
@@ -173,9 +173,6 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @public
      * @param {Array.<Link>} links - Массив связей между сущностями.
      * для обновления связи передавать её id нет необходимости.
-     * @param {boolean} [keepErrorsInResponse] - если true, то
-     * результат будет выглядеть {errors: Array, links: Array}.
-     * Если false - результатом будет массив связей
      * @return {Promise}
      */
 
@@ -187,9 +184,6 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @public
      * @param {Array.<Link>} links - Массив связей,
      * которые необходимо разорвать
-     * @param {boolean} [keepErrorsInResponse] - если true, то
-     * результат будет выглядеть {errors: Array, links: Array}.
-     * Если false - результатом будет массив разорванных связей
      * @return {Promise}
      */
 
@@ -250,9 +244,6 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @public
      * @param {Array.<Customer>} customers - Массив покупателей,
      * которых необходимо создать
-     * @param {boolean} [keepErrorsInResponse] - если true, то
-     * результат будет выглядеть {errors: Array, customers: Array}.
-     * Если false - результатом будет массив покупателей
      * @return {Promise}
      */
 
@@ -264,9 +255,6 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @public
      * @param {Array.<Customer>} customers - Массив покупателей,
      * которых необходимо изменить
-     * @param {boolean} [keepErrorsInResponse] - если true, то
-     * результат будет выглядеть {errors: Array, customers: Array}.
-     * Если false - результатом будет массив покупателей
      * @return {Promise}
      */
 
@@ -290,10 +278,6 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Array.<Number>} ids - ID покупателей, которых необходимо удалить
-     * @param {boolean} [keepErrorsInResponse] - если true, то
-     * результат будет выглядеть {errors: Array, customers: Array}.
-     * Если false - результатом будет массив
-     * мета-информации удалённых покупателей
      * @return {Promise}
      */
 
@@ -323,9 +307,6 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Array.<Transaction>} transactions
-     * @param {boolean} [keepErrorsInResponse] - если true, то
-     * результат будет выглядеть {errors: Array, transactions: Array}.
-     * Если false - результатом будет массив транзакций
      * @return {Promise}
      */
 
@@ -336,9 +317,6 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Array.<Transaction>} transactions
-     * @param {boolean} [keepErrorsInResponse] - если true, то
-     * результат будет выглядеть {errors: Array, transactions: Array}.
-     * Если false - результатом будет массив транзакций
      * @return {Promise}
      */
 
@@ -386,7 +364,6 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Array} catalogs
-     * @param {boolean} [keepErrorsInResponse]
      * @return {Promise}
      */
 
@@ -397,7 +374,6 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Array} catalogs
-     * @param {boolean} [keepErrorsInResponse]
      * @return {Promise}
      */
 
@@ -421,7 +397,6 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Array.<Number>} ids
-     * @param {boolean} [keepErrorsInResponse]
      * @return {Promise}
      */
 
@@ -443,7 +418,6 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Array} catalog elements
-     * @param {boolean} [keepErrorsInResponse]
      * @return {Promise}
      */
 
@@ -454,7 +428,6 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Array} catalog elements
-     * @param {boolean} [keepErrorsInResponse]
      * @return {Promise}
      */
 
@@ -478,13 +451,11 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
      * @instance
      * @public
      * @param {Array.<Number>} ids
-     * @param {boolean} [keepErrorsInResponse]
      * @return {Promise}
      */
 
     /**
      * @param {string} entity
-     * @param {boolean} [checkErrors]
      * @return {function(*)}
      * @protected
      * @instance
@@ -493,8 +464,8 @@ var AmoV3ApiClient = function (_AmoV2ApiClient) {
 
   }, {
     key: '_buildDeleteMethod',
-    value: function _buildDeleteMethod(entity, checkErrors) {
-      return this._buildActionMethod('add', entity, checkErrors);
+    value: function _buildDeleteMethod(entity) {
+      return this._buildActionMethod('add', entity);
     }
   }]);
 
